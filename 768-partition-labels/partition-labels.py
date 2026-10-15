@@ -1,18 +1,13 @@
 class Solution:
     def partitionLabels(self, s: str) -> list[int]:
-        cnt = Counter(s)
+        last = {c: i for i, c in enumerate(s)}
         ans = []
-        length = 0
-        cur_car = set()
-        for i, c in enumerate(s):
-            cnt[c] -= 1
-            cur_car.add(c)
-            length += 1
-            if cnt[c] == 0:
-                cur_car.remove(c)
-            if len(cur_car) == 0:
-                ans.append(length)
-                length = 0
+        start = end = 0
+
+        for i, ch in enumerate(s):
+            end = max(end, last[ch])
+            if i == end:
+                ans.append(end-start+1)
+                start = end+1
+
         return ans
-
-
