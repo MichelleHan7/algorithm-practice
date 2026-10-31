@@ -24,7 +24,7 @@ class Solution:
         Do not return anything, modify head in-place instead.
         """
         head2 = self.reverseList(self.middleNode(head))
-        while head2.next:
+        while head2 and head2.next:
             nxt = head.next
             nxt2 = head2.next
             head.next = head2
