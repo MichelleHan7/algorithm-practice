@@ -3,19 +3,22 @@ class Solution:
         ans = 0
         m, n = len(grid), len(grid[0])
 
-        def dfs(i, j):
-            if i < 0 or i >= m or j < 0 or j >= n or grid[i][j] == '0':
-                return
-            grid[i][j] = '0'
-            dfs(i+1, j)
-            dfs(i-1, j)
-            dfs(i, j+1)
-            dfs(i, j-1)
-            return
+        directions = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+        def bfs(i, j):
+            q = deque([(i, j)])
+            while q:
+                grid[i][j] == '0'
+                i, j = q.popleft()
+                for di, dj in directions:
+                    ni, nj = i + di, j + dj
+                    if ni < 0 or ni >= m or nj < 0 or nj >= n or grid[ni][nj] == '0':
+                        continue
+                    q.append((ni, nj))
+                    grid[ni][nj] = '0'
 
         for i in range(m):
             for j in range(n):
                 if grid[i][j] == '1':
                     ans += 1
-                    dfs(i, j)
+                    bfs(i, j)
         return ans
