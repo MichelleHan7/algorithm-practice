@@ -2,15 +2,15 @@ class Solution:
     def insert(self, intervals: list[list[int]], newInterval: list[int]) -> list[list[int]]:
         ans = []
 
-        for i, inter in enumerate(intervals):
-            if newInterval[1] < inter[0]:
+        for i, [start, end] in enumerate(intervals):
+            if newInterval[1] < start:
                 ans.append(newInterval)
-                ans += intervals[i:]
-                return ans
-            elif newInterval[0] > inter[1]:
-                ans.append(inter)
+                return ans + intervals[i:]
+            elif end < newInterval[0]:
+                ans.append([start, end])
             else:
-                newInterval = [min(newInterval[0], inter[0]), max(newInterval[1], inter[1])]
-        ans.append(newInterval)
+                newInterval = [min(newInterval[0], start), max(newInterval[1], end)]
         
+        ans.append(newInterval)
+
         return ans
