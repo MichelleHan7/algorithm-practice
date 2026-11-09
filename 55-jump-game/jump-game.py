@@ -1,8 +1,8 @@
 class Solution:
     def canJump(self, nums: list[int]) -> bool:
-        canJump = 0
+        far = nums[0]
         for i, num in enumerate(nums):
-            if i > canJump:
+            if far < i:
                 return False
-            canJump = max(canJump, i + num)
+            far = max(far, i + num)
         return True
