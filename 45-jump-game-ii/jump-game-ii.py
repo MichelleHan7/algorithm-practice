@@ -1,15 +1,13 @@
 class Solution:
     def jump(self, nums: list[int]) -> int:
-        ans = 0
-        cur_end = 0
-        next_end = 0
-        for i, num in enumerate(nums):
-            next_end = max(next_end, i + num)
-            if i == len(nums) - 1:
-                return ans
-            if i == cur_end:
-                ans += 1
-                cur_end = next_end
-        
-        return ans
+        count = 0
+        farest = 0
+        curfar = 0
 
+        for i in range(len(nums) - 1):
+            farest = max(farest, i + nums[i])
+            if i == curfar:
+                curfar = farest
+                count += 1
+        
+        return count
