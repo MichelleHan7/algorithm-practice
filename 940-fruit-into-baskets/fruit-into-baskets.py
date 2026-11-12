@@ -1,6 +1,5 @@
 class Solution:
     def totalFruit(self, fruits: list[int]) -> int:
-        if len(fruits) == 1 and fruits[0] == 0: return 1
         n = len(fruits)
         cnt = Counter()
         left = 0
