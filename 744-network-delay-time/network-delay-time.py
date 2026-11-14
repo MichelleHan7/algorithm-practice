@@ -9,8 +9,8 @@ class Solution:
         
         while minHeap:
             weight, node = heapq.heappop(minHeap)
-            if node in visited:
-                continue
+            # if node in visited:
+            #     continue
             visited.add(node)
             if len(visited) == n:
                 return weight
