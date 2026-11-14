@@ -9,13 +9,12 @@ class Solution:
         
         while minHeap:
             weight, node = heapq.heappop(minHeap)
-            # if node in visited:
-            #     continue
+            if node in visited:
+                continue
             visited.add(node)
             if len(visited) == n:
                 return weight
             for nei, w in nodeMap[node]:
-                if nei not in visited:
-                    heapq.heappush(minHeap, (weight + w, nei))
+                heapq.heappush(minHeap, (weight + w, nei))
         
         return -1 if len(visited) != n else weight
