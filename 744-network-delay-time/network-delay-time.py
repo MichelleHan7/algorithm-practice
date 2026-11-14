@@ -15,6 +15,7 @@ class Solution:
             if len(visited) == n:
                 return weight
             for nei, w in nodeMap[node]:
-                heapq.heappush(minHeap, (weight + w, nei))
+                if nei not in visited:
+                    heapq.heappush(minHeap, (weight + w, nei))
         
         return -1 if len(visited) != n else weight
