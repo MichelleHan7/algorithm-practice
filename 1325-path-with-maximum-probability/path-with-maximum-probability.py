@@ -16,7 +16,7 @@ class Solution:
             if node == end_node:
                 return -prob
             for nei, neiProb in nodeMap[node]:
-                if nei not in visited:
-                    heapq.heappush(minHeap, (neiProb * prob, nei))
+                
+                heapq.heappush(minHeap, (neiProb * prob, nei))
         
         return 0.0
