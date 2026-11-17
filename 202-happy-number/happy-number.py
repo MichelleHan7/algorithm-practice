@@ -1,15 +1,19 @@
 class Solution:
     def isHappy(self, n: int) -> bool:
-        visited = set()
-
-        while n != 1:
-            if n in visited:
-                return False
-            visited.add(n)
-            new_n = 0
-            while n != 0:
-                new_n += (n % 10) ** 2
-                n = (n - n % 10) // 10
-            n = new_n
-        return True
-
+        
+        def getNext(n):
+            res = 0
+            while n:
+                digit = n % 10
+                res += digit ** 2
+                n //= 10
+            return res
+        
+        slow = n
+        fast = getNext(n)
+        
+        while fast != 1 and slow != fast:
+            slow = getNext(slow)
+            fast = getNext(getNext(fast))
+        
+        return fast == 1
