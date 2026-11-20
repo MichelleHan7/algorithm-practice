@@ -10,29 +10,31 @@ class WordDictionary:
 
     def addWord(self, word: str) -> None:
         cur = self.root
-        for c in word:
+
+        for i, c in enumerate(word):
             if c not in cur.children:
                 cur.children[c] = TrieNode()
             cur = cur.children[c]
-        cur.endOfWord = True
         
-    def search(self, word: str) -> bool:
+        cur.endOfWord = True
 
-        def dfs(node, i):
+    def search(self, word: str) -> bool:
+        def dfs(i, node):
             if i == len(word):
                 return node.endOfWord
             if word[i] != '.':
-                if word[i] not in node.children:
+                if word[i] in node.children:
+                    return dfs(i+1, node.children[word[i]])
+                else:
                     return False
-                return dfs(node.children[word[i]], i+1)
             else:
-                for c in node.children.values():
-                    if dfs(c, i+1):
+                for n in node.children.values():
+                    if dfs(i+1, n):
                         return True
                 return False
         
-        return dfs(self.root, 0)
-        
+        return dfs(0, self.root)
+
 
 
 # Your WordDictionary object will be instantiated and called as such:
