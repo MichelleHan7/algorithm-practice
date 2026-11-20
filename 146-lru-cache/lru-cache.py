@@ -2,8 +2,8 @@ class Node:
     def __init__(self, key=0, value=0):
         self.key = key
         self.value = value
-        self.next = None
         self.prev = None
+        self.next = None
 
 class LRUCache:
 
@@ -15,39 +15,38 @@ class LRUCache:
         self.key_to_node = {}
 
     def get(self, key: int) -> int:
-        if key in self.key_to_node:
-            node = self.key_to_node[key]
-            self.remove(node)
-            self.push_front(node)
-            return node.value
-        else:
+        if key not in self.key_to_node:
             return -1
+        node = self.key_to_node[key]
+        self.remove(node)
+        self.push_front(node)
+        return node.value
 
     def put(self, key: int, value: int) -> None:
-        if key not in self.key_to_node:
+        if key in self.key_to_node:
+            node = self.key_to_node[key]
+            node.value = value
+            self.remove(node)
+            self.push_front(node)
+        else:
             node = Node(key, value)
             self.key_to_node[key] = node
             self.push_front(node)
             if len(self.key_to_node) > self.capacity:
-                last_node = self.dummy.prev
-                del self.key_to_node[last_node.key]
-                self.remove(last_node)
-        else:
-            self.key_to_node[key].value = value
-            self.remove(self.key_to_node[key])
-            self.push_front(self.key_to_node[key])
-
+                back_node = self.dummy.prev
+                del self.key_to_node[back_node.key]
+                self.remove(back_node)
     
     def remove(self, node):
         node.prev.next = node.next
         node.next.prev = node.prev
-
+    
     def push_front(self, node):
         node.prev = self.dummy
         node.next = self.dummy.next
         self.dummy.next = node
         node.next.prev = node
-
+        
 
 
 # Your LRUCache object will be instantiated and called as such:
