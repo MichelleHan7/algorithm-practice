@@ -13,6 +13,6 @@ class Solution:
         elif root.val > high:
             return self.trimBST(root.left, low, high)
         else:
-            left = self.trimBST(root.left, low, high)
-            right = self.trimBST(root.right, low, high)
-        return TreeNode(root.val, left, right)
+            root.left = self.trimBST(root.left, low, high)
+            root.right = self.trimBST(root.right, low, high)
+        return root
