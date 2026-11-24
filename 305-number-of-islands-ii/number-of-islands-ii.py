@@ -1,49 +1,43 @@
 class Solution:
     def numIslands2(self, m: int, n: int, positions: list[list[int]]) -> list[int]:
-        parent = {}
-        size = {}
+        ans = [0] * len(positions)
+        par = {}
+        degree = {}
         count = 0
-        ans = []
 
         def find(node):
-            if node != parent[node]:
-                parent[node] = find(parent[node])
-            return parent[node]
+            while node != par[node]:
+                par[node] = par[par[node]]
+                node = par[node]
+            return node
 
-        def union(a, b):
-            p1, p2 = find(a), find(b)
-
+        def union(node1, node2):
+            p1, p2 = find(node1), find(node2)
             if p1 == p2:
                 return False
-
-            if size[p1] < size[p2]:
-                p1, p2 = p2, p1
-
-            parent[p2] = p1
-            size[p1] += size[p2]
-
+            if degree[p1] < degree[p2]:
+                par[p1] = p2
+                degree[p2] += degree[p1]
+            else:
+                par[p2] = p1
+                degree[p1] += degree[p2]
             return True
 
-        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
-
-        for r, c in positions:
+        directions = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+        for i, [r, c] in enumerate(positions):
             node = (r, c)
-
-            if node in parent:
-                ans.append(count)
+            if node in par:
+                ans[i] = count
                 continue
-
-            parent[node] = node
-            size[node] = 1
+            par[node] = node
+            degree[node] = 1
             count += 1
 
             for dr, dc in directions:
-                nei = (r + dr, c + dc)
-
-                if nei in parent:
-                    if union(node, nei):
+                nei = (r+dr, c+dc)
+                if nei in par:
+                    if union(nei, node):
                         count -= 1
-
-            ans.append(count)
-
+            
+            ans[i] = count
         return ans
